@@ -1,0 +1,142 @@
+/* ==========================================================================
+   shawty-ui — design tokens
+   Dark only, Material 3 Expressive palette, Comfortaa + Inter type
+   ========================================================================== */
+
+:root {
+  /* --- Colour ---------------------------------------------------------- */
+  --md-primary: #c7c1ff;
+  --md-on-primary: #240f8f;
+  --md-primary-container: #3d2fbe;
+  --md-on-primary-container: #e6e2ff;
+  --md-secondary: #c5c3dc;
+  --md-on-secondary: #2e2e42;
+  --md-secondary-container: #3f3e52;
+  --md-on-secondary-container: #e7e5f5;
+  --md-tertiary: #edc148;
+  --md-on-tertiary: #3f2e00;
+  --md-tertiary-container: #5c4200;
+  --md-on-tertiary-container: #ffe6a8;
+  --md-error: #ffb4ab;
+  --md-on-error: #690005;
+  --md-error-container: #93000a;
+  --md-on-error-container: #ffdad6;
+
+  --md-surface: #121216;
+  --md-surface-container-lowest: #08080b;
+  --md-surface-container-low: #1a1a1f;
+  --md-surface-container: #1e1e24;
+  --md-surface-container-high: #282830;
+  --md-surface-container-highest: #33333b;
+  --md-on-surface: #e5e1e9;
+  --md-on-surface-variant: #c8c5d0;
+  --md-outline: #928f9a;
+  --md-outline-variant: #47464f;
+  --md-inverse-surface: #e5e1e9;
+  --md-inverse-on-surface: #303036;
+
+  /* --- Shape ----------------------------------------------------------- */
+  --md-shape-sm: 12px;
+  --md-shape-md: 18px;
+  --md-shape-lg: 24px;
+  --md-shape-xl: 34px;
+  --md-shape-full: 999px;
+
+  /* --- Motion ---------------------------------------------------------- */
+  --md-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-easing-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --md-duration-short: 160ms;
+  --md-duration-medium: 320ms;
+  --md-duration-long: 520ms;
+
+  /* --- Type ------------------------------------------------------------ */
+  --md-font-display: 'Comfortaa', 'Inter', system-ui, sans-serif;
+  --md-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --md-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- Ambient halo (Gemini-style sweep) ------------------------------- */
+  --md-halo-a: #2f6df6;
+  --md-halo-b: #8b5cf6;
+  --md-halo-c: #e879f9;
+  --md-halo-opacity: 0.4;
+  --md-blob-opacity: 0.5;
+  --md-halo-blur: 120px;
+  --md-glow: color-mix(in srgb, var(--md-primary) 55%, transparent);
+  --md-glow-strength: 0.5;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  font-family: var(--md-font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.md-muted {
+  color: var(--md-on-surface-variant);
+}
+
+.md-mono {
+  font-family: var(--md-font-mono);
+  font-size: 0.9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
