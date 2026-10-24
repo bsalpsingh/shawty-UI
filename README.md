@@ -7,6 +7,17 @@ The web front end for [shawty](../shawty) — a URL shortener. React + Vite, Sup
 - **Sign in with GitHub** — Supabase OAuth, GitHub is the only provider wired up. Signed out, the app shows nothing but the wordmark and a GitHub button.
 - **Home** — a Google-style search field: paste a long link, press *Shorten*, get a short url back with a one-tap copy button. On narrow screens the button drops below the field so the url gets the whole row.
 - **My urls** — a paginated table of every link you created: short code, destination, age, expiry, copy/open actions. Reached through the list icon in the top right.
+
+The app is a single page on `/` — the table is a view toggle, not a route. The nginx image routes accordingly:
+
+| path | served by |
+| ---- | --------- |
+| `/` | the UI bundle |
+| `/api/...` | the shawty API (prefix stripped) |
+| `/assets/...`, `/favicon.svg`, `/env-config.js` | static |
+| anything else (`/s5sLgmeH`) | the shawty API, which owns `/{short_code}` and issues the redirect |
+
+So the app and the short links can share one host: `example.com` opens the shortener, `example.com/s5sLgmeH` redirects to the target.
 - **Top right cluster** — my-urls toggle and the account menu (name, email, sign out). The `shawty` mark on the list view links back to the shortener.
 - **Dark only** — there is no light theme and no toggle; the palette is Gemini-style with a slow colour sweep behind the content.
 
@@ -61,12 +72,12 @@ Other scripts: `npm run build` (production bundle in `dist/`), `npm run lint`, `
 src/
   components.css            Material 3 Expressive component layer
   index.css                 design tokens, colour schemes, type scale
-  App.jsx                   shell + routes
+  App.jsx                   shell + view toggle
   components/               search bar, result, table, pagination, sign-in, user menu, icons
   context/                  auth and toast providers (and their hooks)
   hooks/                    useUrls (fetch + pagination state), useCopy
-  lib/                      api client, supabase client, router, formatters
-  pages/                    Home, Urls
+  lib/                      api client, supabase client, runtime config, formatters
+  pages/                    Home (shortener), Urls (table)
 ```
 
 ## API contract

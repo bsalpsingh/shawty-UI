@@ -1,10 +1,9 @@
-import { useRouter } from './lib/router-context'
+import { useState } from 'react'
 import { useAuth } from './context/auth-context'
 import { Backdrop } from './components/Backdrop'
 import { SignIn } from './components/SignIn'
 import { UserMenu } from './components/UserMenu'
 import { Icon } from './components/Icon'
-import { Link } from './lib/RouterProvider'
 import { Home } from './pages/Home'
 import { Urls } from './pages/Urls'
 
@@ -16,21 +15,21 @@ function Splash() {
   )
 }
 
+// Everything lives on "/" — the API owns "/{short_code}" for redirects, so the
+// ui never claims a path of its own. The list is a view toggle, not a route.
 export default function App() {
-  const { path } = useRouter()
   const { loading, isAuthenticated } = useAuth()
-  const { navigate } = useRouter()
-
-  const onUrls = path === '/urls'
+  const [showList, setShowList] = useState(false)
 
   return (
-    <div className={`page${isAuthenticated ? '' : ' page--centered'}${onUrls ? ' page--urls' : ''}`}>
+    <div className={`page${isAuthenticated ? '' : ' page--centered'}${showList ? ' page--urls' : ''}`}>
       <Backdrop />
 
-      {isAuthenticated && onUrls ? (
-        <Link to="/" className="page__brand" title="Go to shawty">
-          shawty
-        </Link>
+      {isAuthenticated && showList ? (
+        <button type="button" className="page__home" onClick={() => setShowList(false)} title="Back to the shortener">
+          <Icon name="chevronLeft" size={16} className="page__home__chev" />
+          <span className="page__home__label">shorten a link</span>
+        </button>
       ) : null}
 
       <div className="page__actions">
@@ -38,12 +37,12 @@ export default function App() {
           <>
             <button
               type="button"
-              className={`icon-btn${onUrls ? ' icon-btn--on' : ''}`}
-              onClick={() => navigate(onUrls ? '/' : '/urls')}
-              aria-label={onUrls ? 'Back to shortener' : 'My urls'}
-              title={onUrls ? 'Shortener' : 'My urls'}
+              className={`icon-btn${showList ? ' icon-btn--on' : ''}`}
+              onClick={() => setShowList((value) => !value)}
+              aria-label={showList ? 'Back to shortener' : 'My urls'}
+              title={showList ? 'Shortener' : 'My urls'}
             >
-              <Icon name={onUrls ? 'home' : 'list'} size={19} />
+              <Icon name={showList ? 'home' : 'list'} size={19} />
             </button>
             <UserMenu />
           </>
@@ -51,7 +50,7 @@ export default function App() {
       </div>
 
       <div className="page__inner">
-        {loading ? <Splash /> : !isAuthenticated ? <SignIn /> : onUrls ? <Urls /> : <Home />}
+        {loading ? <Splash /> : !isAuthenticated ? <SignIn /> : showList ? <Urls /> : <Home />}
       </div>
     </div>
   )

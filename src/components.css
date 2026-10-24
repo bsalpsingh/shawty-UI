@@ -34,25 +34,67 @@
   padding-top: 92px;
 }
 
-/* brand mark, pinned to the top-left of the list view */
-.page__brand {
+/* plain-text way back to the shortener, shown on the list view */
+.page__home {
   position: fixed;
-  top: 16px;
+  top: 17px;
   left: 20px;
   z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
   font-family: var(--md-font-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--md-on-surface);
-  opacity: 0.9;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface-variant);
+  opacity: 0.72;
   cursor: pointer;
-  transition: opacity var(--md-duration-short) var(--md-easing-standard), transform var(--md-duration-medium) var(--md-easing-spring);
+  transition: color var(--md-duration-short) var(--md-easing-standard), opacity var(--md-duration-short) var(--md-easing-standard),
+    transform var(--md-duration-medium) var(--md-easing-spring);
 }
 
-.page__brand:hover {
+.page__home:hover {
   opacity: 1;
-  transform: translateX(-2px);
+  color: var(--md-on-surface);
+  transform: translateX(-3px);
+}
+
+.page__home__chev {
+  display: inline-block;
+  flex: 0 0 auto;
+  transition: transform var(--md-duration-medium) var(--md-easing-spring);
+}
+
+.page__home:hover .page__home__chev {
+  transform: translateX(-5px);
+}
+
+.page__home__label {
+  position: relative;
+}
+
+.page__home__label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--md-duration-medium) var(--md-easing-spring), opacity var(--md-duration-short) var(--md-easing-standard);
+}
+
+.page__home:hover .page__home__label::after {
+  opacity: 0.65;
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* floating, barely-there actions */

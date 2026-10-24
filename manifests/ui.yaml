@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shawty-ui
+  namespace: shawty
+  labels:
+    app: shawty-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shawty-ui
+  template:
+    metadata:
+      labels:
+        app: shawty-ui
+    spec:
+      containers:
+        - name: shawty-ui
+          image: bsalpsingh/shawty-ui:v1.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            # Sourced from the unified shawty-secrets Secret.
+            - name: SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: shawty-secrets
+                  key: SUPABASE_URL
+            - name: SUPABASE_PUBLISHABLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: shawty-secrets
+                  key: SUPABASE_PUBLISHABLE_KEY
+            - name: API_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: shawty-secrets
+                  key: API_BASE_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shawty-ui-svc
+  namespace: shawty
+spec:
+  selector:
+    app: shawty-ui
+  ports:
+    - port: 80
+      targetPort: 80
